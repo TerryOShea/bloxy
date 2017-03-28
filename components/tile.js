@@ -4,12 +4,17 @@ const SQUARE_DIM = 150;
 const HEIGHT = 20;
 
 class Tile {
-  constructor(xPos, zPos, type) {
+  constructor(zPos, xPos, type) {
     this.type = type;
 
     const geometry = new BoxGeometry(SQUARE_DIM, HEIGHT, SQUARE_DIM);
-    const rand = (Math.random() + 1)/2;
-    geometry.faces.forEach(face => face.color.setHex(rand * 0xffffff));
+
+    if (type === "normal") {
+      const rand = (Math.random() + 1)/2;
+      geometry.faces.forEach(face => face.color.setHex(rand * 0xffffff));
+    } else if (type === "empty") {
+      geometry.faces.forEach(face => face.color.setHex(0xffffff))
+    }
 
     const material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     this.tile = new Mesh(geometry, material);

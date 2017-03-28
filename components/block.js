@@ -1,4 +1,4 @@
-import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors } from '../lib/three.min.js';
+import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion } from '../lib/three.min.js';
 
 const SHORT_DIM = 150;
 
@@ -13,6 +13,7 @@ class Block {
 
     this.block.position.y = 140;
     this.alignment = "y";
+    this.squares = [[0, 0], [0, 0]];
   }
 
   render() {
@@ -21,23 +22,31 @@ class Block {
 
   move(x, y, z) {
     if (x) {
-      this.block.position.x += this.alignment === "z" ? x * SHORT_DIM : x * SHORT_DIM * 2;
-      if (this.alignment !== "z") {
+      if (this.alignment === "z") {
+        this.block.position.x += x * SHORT_DIM;
+      } else {
+        this.block.position.x += x * SHORT_DIM * 1.5;
+        const multiplier = (x > 0 && this.alignment === "x") || (x < 0 && this.alignment === "y") ? 1 : -1;
+        this.block.position.y += x * SHORT_DIM * 0.5 * multiplier;
         this.alignment = this.alignment === "y" ? "x" : "y";
       }
     } else if (z) {
-      this.block.position.z += this.alignment === "x" ? z * SHORT_DIM : z * SHORT_DIM * 2;
+      this.block.position.z += this.alignment === "x" ? z * SHORT_DIM : z * SHORT_DIM * 1.5;
       if (this.alignment !== "x") {
+        const multiplier = (z > 0 && this.alignment === "z") || (z < 0 && this.alignment === "y") ? 1 : -1;
         this.alignment = this.alignment === "y" ? "z" : "y";
+        this.block.position.y += z * SHORT_DIM * 0.5 * multiplier;
       }
     }
-    console.log(this.alignment);
   }
 
   rotate(xdeg, ydeg, zdeg) {
-    this.block.rotation.x += xdeg;
-    this.block.rotation.y += ydeg;
-    this.block.rotation.z += zdeg;
+
+    if (zdeg && this.alignment !== "z" || xdeg && this.alignment !== "x") {
+      this.block.rotation.x += xdeg;
+      this.block.rotation.y += ydeg;
+      this.block.rotation.z += zdeg;
+    }
   }
 }
 

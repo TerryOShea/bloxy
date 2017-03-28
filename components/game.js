@@ -19,18 +19,18 @@ class Game {
     this.camera.position.z = 1500;
     this.camera.position.y = 1250;
     this.camera.position.x = -600;
-    this.camera.rotation.x = -Math.PI/8;
+    this.camera.rotation.x = -Math.PI/6;
     this.camera.rotation.y = -Math.PI/8;
 
-    const light = new THREE.PointLight(0xffffff, 2);
-    light.position.set(-400, 400, 500);
-    this.scene.add(light);
+    const light1 = new THREE.PointLight(0xffffff, 1.5);
+    light1.position.set(600, 800, 500);
+    this.scene.add(light1);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xffffff);
     this.renderer.setSize(1000, 600);
 
-    this.board.tiles.forEach(tile => this.scene.add(tile.render()));
+    this.board.tiles.forEach(row => row.forEach(tile => this.scene.add(tile.render())));
     this.scene.add(this.block.render());
 
     document.body.appendChild(this.renderer.domElement);
