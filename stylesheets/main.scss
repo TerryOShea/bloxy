@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron:500);
+
 body {
   margin: 0;
   padding: 0;
@@ -6,5 +8,36 @@ body {
 canvas {
   display: block;
   margin: 50px auto;
-  border: 1px solid black;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+
+  a {
+    color: gray;
+    margin: 10px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

@@ -11,9 +11,12 @@ class Block {
     const material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     this.block = new Mesh(geometry, material);
 
+    this.reset();
+  }
+
+  reset() {
     this.block.position.y = 140;
     this.alignment = "y";
-    this.squares = [[0, 0], [0, 0]];
   }
 
   render() {

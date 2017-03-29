@@ -8,6 +8,9 @@ class Game {
     this.board = new Board;
     this.block = new Block;
     this.level = 1;
+    this.moves = 0;
+    this.scoreboard = document.querySelector(".scoreboard");
+
     this.renderGame();
     this.listenKeydown();
   }
@@ -15,20 +18,19 @@ class Game {
   renderGame() {
     this.scene = new THREE.Scene();
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.z = 1500;
-    this.camera.position.y = 1250;
-    this.camera.position.x = -600;
+    this.camera.position.y = 1000;
+    this.camera.position.x = 600;
     this.camera.rotation.x = -Math.PI/6;
-    this.camera.rotation.y = -Math.PI/8;
 
     const light1 = new THREE.PointLight(0xffffff, 1.5);
-    light1.position.set(600, 800, 500);
+    light1.position.set(600, 800, 800);
     this.scene.add(light1);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xffffff);
-    this.renderer.setSize(1000, 600);
+    this.renderer.setSize(1000, 500);
 
     this.board.tiles.forEach(row => row.forEach(tile => this.scene.add(tile.render())));
     this.scene.add(this.block.render());
@@ -38,24 +40,33 @@ class Game {
     this.renderer.render(this.scene, this.camera);
   }
 
+  updateScore() {
+    this.moves += 1;
+    this.scoreboard.innerHTML = this.moves;
+  }
+
   listenKeydown() {
     document.addEventListener('keydown', e => {
       switch(e.keyCode) {
         case 37: // left
           this.block.rotate(0, 0, Math.PI/2);
           this.block.move(-1, 0, 0);
+          this.updateScore();
           break;
         case 38: // up
           this.block.rotate(Math.PI/2, 0, 0);
           this.block.move(0, 0, -1);
+          this.updateScore();
           break;
         case 39: // right
           this.block.rotate(0, 0, -Math.PI/2);
           this.block.move(1, 0, 0);
+          this.updateScore();
           break;
         case 40: // down
           this.block.rotate(-Math.PI/2, 0, 0);
           this.block.move(0, 0, 1);
+          this.updateScore();
           break;
         default:
           return;
@@ -66,7 +77,20 @@ class Game {
     });
   }
 
-  move(xPos, yPos) {
+  receiveMove(xPos, yPos) {
+
+  }
+
+  reset() {
+    this.moves = 0;
+    this.block.reset();
+  }
+
+  win() {
+    this.level += 1;
+  }
+
+  lose() {
 
   }
 }
