@@ -16,6 +16,8 @@ class Tile {
       material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     } else if (type === "empty") {
       material = new MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+    } else if (type === "goal") {
+      material = new MeshLambertMaterial({ color: 0x000000, vertexColors: FaceColors });
     }
 
     this.tile = new Mesh(geometry, material);

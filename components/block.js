@@ -11,6 +11,8 @@ class Block {
     const material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     this.block = new Mesh(geometry, material);
 
+    this.coords = [[0, 0], [0, 0]];
+
     this.reset();
   }
 
@@ -19,11 +21,51 @@ class Block {
     this.alignment = "y";
   }
 
+  updateCoords(x, y, z) {
+    if (x) {
+      switch(this.alignment) {
+        case "x":
+          this.coords[0][0] += 2 * x;
+          this.coords[1][0] += x;
+          break;
+        case "y":
+          this.coords[0][0] += x;
+          this.coords[1][0] += 2 * x;
+          break;
+        case "z":
+          this.coords.forEach(coord => coord[0] += x);
+          break;
+        default:
+          return;
+      }
+    } else if (z) {
+      switch(this.alignment) {
+        case "x":
+          this.coords[0][1] += 2 * z;
+          this.coords[1][1] += z;
+          break;
+        case "y":
+          this.coords[0][1] += z;
+          this.coords[1][1] += 2 * z;
+          break;
+        case "z":
+          this.coords.forEach(coord => coord[1] += z);
+          break;
+        default:
+          return;
+      }
+    }
+
+    this.coords.sort((a, b) => a[0] <= b[0] && a[1] <= b[1] ? -1 : 1);
+  }
+
   render() {
     return this.block;
   }
 
   move(x, y, z) {
+    this.updateCoords(x, y, z);
+
     if (x) {
       if (this.alignment === "z") {
         this.block.position.x += x * SHORT_DIM;

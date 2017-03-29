@@ -43,6 +43,7 @@ class Game {
   updateScore() {
     this.moves += 1;
     this.scoreboard.innerHTML = this.moves;
+    console.log(this.block.coords);
   }
 
   listenKeydown() {
@@ -77,8 +78,20 @@ class Game {
     });
   }
 
-  receiveMove(xPos, yPos) {
-
+  receiveMove(x, z) {
+    const tile = this.board.tiles[x][z];
+    switch(tile.type) {
+      case "normal":
+        break;
+      case "empty":
+        this.lose();
+        break;
+      case "goal":
+        if (this.block.alignment === "y") this.win();
+        break;
+      default:
+        return;
+    }
   }
 
   reset() {
@@ -87,11 +100,13 @@ class Game {
   }
 
   win() {
+    alert("you won!");
     this.level += 1;
   }
 
   lose() {
-
+    alert("you lost :(");
+    this.reset();
   }
 }
 
