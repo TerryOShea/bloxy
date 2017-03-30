@@ -34,16 +34,18 @@ class Game {
     this.renderer.setClearColor(0xffffff);
     this.renderer.setSize(1000, 500);
 
-    // Game components
-    this.board = new Board(this.scene);
-    this.block = new Block(this.scene);
-
     // Game statistics
     this.level = 1;
     this.moves = 0;
     this.scoreboard = document.querySelector(".scoreboard");
 
+    // if one coord of the block has already won/lost the level, the other coord
+    // will not be checked
     this.checkNextCoord = true;
+
+    // Game components
+    this.board = new Board(this.scene);
+    this.block = new Block(this.scene, LEVEL_REF[this.level].blockPos);
 
     this.handleKeydown = this.handleKeydown.bind(this);
 

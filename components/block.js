@@ -2,7 +2,7 @@ import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion
 import { SIDE_LENGTH } from './constants';
 
 class Block {
-  constructor(scene) {
+  constructor(scene, initialPos) {
     // from the larger game view
     this.scene = scene;
 
@@ -14,21 +14,26 @@ class Block {
     const material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     this.block = new Mesh(geometry, material);
 
+    this.initialPos = initialPos;
     this.reset();
     this.block.position.y = 800; // to be dropped in
   }
 
   reset() {
-    // move the block back to the top left corner
-    this.block.position.x = 0;
+    const xPos = (this.initialPos[0] - 1) * SIDE_LENGTH;
+    const zPos = (this.initialPos[1] - 1) * SIDE_LENGTH;
+
+    this.block.position.x = xPos;
     this.block.position.y = 140;
-    this.block.position.z = 0;
+    this.block.position.z = zPos;
     this.block.rotation.x = 0;
     this.block.rotation.y = 0;
     this.block.rotation.z = 0;
 
     this.alignment = "y"; // vertical (y-axis) alignment
-    this.coords = [[1, 1], [1, 1]]; // the x-z coordinates of each cube of the block
+
+    // the x-z coordinates of each cube of the block
+    this.coords = [[...this.initialPos], [...this.initialPos]];
   }
 
   // TODO: simplify logic
