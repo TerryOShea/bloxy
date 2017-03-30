@@ -12,11 +12,11 @@ const KEYDOWN_EVENTS = [
 ];
 
 const LEVEL_REF = [
+  { boardLayout: BLOXY.LEVEL_ZERO, blockPos: BLOXY.START_POS_ZERO },
   { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE },
   { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_TWO },
   { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_THREE },
-  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR },
-  { boardLayout: BLOXY.LEVEL_FIVE, blockPos: BLOXY.START_POS_FIVE }
+  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR }
 ];
 
 class Game {
@@ -25,9 +25,14 @@ class Game {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-    this.camera.position.z = 1600;
-    this.camera.position.y = 1100;
-    this.camera.position.x = 600;
+    // this.camera.position.z = 1600; // for first three levels
+    // this.camera.position.z = 2000; // for fourth level
+    this.camera.position.z = 2500; // for fifth level
+    // this.camera.position.y = 1100; for first four levels;
+    this.camera.position.y = 1400;
+
+    // this.camera.position.x = 600; // for first three levels
+    this.camera.position.x = 1000; // for fourth and fifth levels
     this.camera.rotation.x = -Math.PI/5;
 
     this.renderer = new THREE.WebGLRenderer();
@@ -36,7 +41,7 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
-    this.level = 1;
+    this.level = 4;
     this.moves = 0;
     this.scoreboard = document.querySelector(".scoreboard");
 

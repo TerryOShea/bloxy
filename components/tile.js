@@ -62,9 +62,10 @@ class Tile {
     // add button to activator tiles
     if (this.type === "activator") {
       const radius = SIDE_LENGTH * 0.4;
-      const buttonGeometry = new CylinderGeometry(radius, radius, 100, 32);
+      const buttonGeometry = new CylinderGeometry(radius, radius, TILE_HEIGHT, 32);
       buttonGeometry.faces.forEach(face => face.color.setHex(rand * 0xffffff));
       const button = new Mesh(buttonGeometry, material);
+      button.position.y = TILE_HEIGHT;
 
       this.tile.add(button);
     }
