@@ -1,112 +1,189 @@
 import Board from './board';
 import Block from './block';
+import * as BLOXY from './constants';
 
 import * as THREE from '../lib/three.min.js';
 
+const KEYDOWN_EVENTS = [
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowRight",
+  "ArrowDown"
+];
+
+const LEVEL_REF = [
+  { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE },
+  { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_ONE },
+  { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_ONE },
+  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_ONE },
+  { boardLayout: BLOXY.LEVEL_FIVE, blockPos: BLOXY.START_POS_ONE }
+];
+
 class Game {
   constructor() {
-    this.board = new Board;
-    this.block = new Block;
-    this.level = 1;
-    this.moves = 0;
-    this.scoreboard = document.querySelector(".scoreboard");
-
-    this.renderGame();
-    this.listenKeydown();
-  }
-
-  renderGame() {
+    // 3D rendering
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-    this.camera.position.z = 1500;
-    this.camera.position.y = 1000;
+    this.camera.position.z = 1600;
+    this.camera.position.y = 1100;
     this.camera.position.x = 600;
-    this.camera.rotation.x = -Math.PI/6;
-
-    const light1 = new THREE.PointLight(0xffffff, 1.5);
-    light1.position.set(600, 800, 800);
-    this.scene.add(light1);
+    this.camera.rotation.x = -Math.PI/5;
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xffffff);
     this.renderer.setSize(1000, 500);
 
-    this.board.tiles.forEach(row => row.forEach(tile => this.scene.add(tile.render())));
-    this.scene.add(this.block.render());
+    // Game components
+    this.board = new Board(this.scene);
+    this.block = new Block(this.scene);
+
+    // Game statistics
+    this.level = 1;
+    this.moves = 0;
+    this.scoreboard = document.querySelector(".scoreboard");
+
+    this.checkNextCoord = true;
+
+    this.handleKeydown = this.handleKeydown.bind(this);
+
+    this.renderGame();
+  }
+
+  renderGame() {
+    const light = new THREE.PointLight(0xffffff, 1.5);
+    light.position.set(600, 800, 800);
+    this.scene.add(light);
+
+    this.board.addBoardToScene();
 
     document.body.appendChild(this.renderer.domElement);
 
     this.renderer.render(this.scene, this.camera);
+
+    this.dropBlock(140);
   }
 
-  updateScore() {
-    this.moves += 1;
+  dropBlock(height) {
+    if (this.block.block.position.y > height) {
+      requestAnimationFrame(() => this.dropBlock(height));
+      this.block.drop();
+      this.block.addBlockToScene();
+      this.renderer.render(this.scene, this.camera);
+    } else {
+      this.listenKeydown(); // event listeners
+    }
+  }
+
+  updateScore(newScore) {
+    this.moves = newScore === 0 ? newScore : this.moves + 1;
     this.scoreboard.innerHTML = this.moves;
-    console.log(this.block.coords);
+
+    if (typeof newScore === "undefined") {
+      this.block.coords.forEach(coord => this.receiveMove(...coord));
+    }
+  }
+
+  unlistenKeydown() {
+    document.removeEventListener('keydown', this.handleKeydown);
   }
 
   listenKeydown() {
-    document.addEventListener('keydown', e => {
-      switch(e.keyCode) {
-        case 37: // left
-          this.block.rotate(0, 0, Math.PI/2);
-          this.block.move(-1, 0, 0);
-          this.updateScore();
-          break;
-        case 38: // up
-          this.block.rotate(Math.PI/2, 0, 0);
-          this.block.move(0, 0, -1);
-          this.updateScore();
-          break;
-        case 39: // right
-          this.block.rotate(0, 0, -Math.PI/2);
-          this.block.move(1, 0, 0);
-          this.updateScore();
-          break;
-        case 40: // down
-          this.block.rotate(-Math.PI/2, 0, 0);
-          this.block.move(0, 0, 1);
-          this.updateScore();
-          break;
-        default:
-          return;
-      }
+    document.addEventListener('keydown', this.handleKeydown);
+  }
 
-      this.scene.add(this.block.render());
+  handleKeydown(e) {
+    switch(e.key) {
+      case "ArrowLeft":
+        this.block.rotate(0, 0, Math.PI/2);
+        this.block.move(-1, 0, 0);
+        break;
+      case "ArrowUp":
+        this.block.rotate(Math.PI/2, 0, 0);
+        this.block.move(0, 0, -1);
+        break;
+      case "ArrowRight":
+        this.block.rotate(0, 0, -Math.PI/2);
+        this.block.move(1, 0, 0);
+        break;
+      case "ArrowDown":
+        this.block.rotate(-Math.PI/2, 0, 0);
+        this.block.move(0, 0, 1);
+        break;
+      default:
+        return;
+    }
+
+    if (KEYDOWN_EVENTS.includes(e.key)) {
+      this.updateScore();
+      this.block.addBlockToScene();
       this.renderer.render(this.scene, this.camera);
-    });
+    }
   }
 
   receiveMove(x, z) {
-    const tile = this.board.tiles[x][z];
+    if (!this.checkNextCoord) {
+      this.checkNextCoord = true;
+      return;
+    }
+
+    const tiles = this.board.tiles;
+    const tile = (tiles[z] && tiles[z][x]) ? tiles[z][x] : tiles[1][1];
+
     switch(tile.type) {
       case "normal":
         break;
       case "empty":
         this.lose();
+        return false;
         break;
       case "goal":
-        if (this.block.alignment === "y") this.win();
+        if (this.block.alignment === "y") {
+          this.win();
+          return false;
+        }
+        break;
+      case "bridge":
+        if (!tile.isActivated) {
+          this.lose();
+          return false;
+        }
+        break;
+      case "bridgeActivator":
+        break;
+      case "fragile":
+        if (this.block.alignment === "y") {
+          this.lose();
+          return false;
+        }
         break;
       default:
         return;
     }
   }
 
-  reset() {
-    this.moves = 0;
-    this.block.reset();
-  }
-
   win() {
-    alert("you won!");
-    this.level += 1;
+    this.checkNextCoord = false;
+    this.unlistenKeydown();
+    this.dropBlock(-1600);
+    setTimeout(() => {
+      console.log("new level!");
+      this.level += 1;
+      this.checkNextCoord = true;
+    }, 1500);
   }
 
   lose() {
-    alert("you lost :(");
-    this.reset();
+    this.checkNextCoord = false;
+    this.unlistenKeydown();
+    this.dropBlock(-1600);
+    setTimeout(() => {
+      this.updateScore(0);
+      this.block.reset();
+      this.block.addBlockToScene();
+      this.renderer.render(this.scene, this.camera);
+      this.checkNextCoord = true;
+    }, 1500);
   }
 }
 
