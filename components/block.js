@@ -15,6 +15,10 @@ class Block {
     this.block = new Mesh(geometry, material);
 
     this.initialPos = initialPos;
+    this.startLevel();
+  }
+
+  startLevel() {
     this.reset();
     this.block.position.y = 800; // to be dropped in
   }

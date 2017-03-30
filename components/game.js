@@ -13,10 +13,10 @@ const KEYDOWN_EVENTS = [
 
 const LEVEL_REF = [
   { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE },
-  { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_ONE },
-  { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_ONE },
-  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_ONE },
-  { boardLayout: BLOXY.LEVEL_FIVE, blockPos: BLOXY.START_POS_ONE }
+  { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_TWO },
+  { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_THREE },
+  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR },
+  { boardLayout: BLOXY.LEVEL_FIVE, blockPos: BLOXY.START_POS_FIVE }
 ];
 
 class Game {
@@ -33,6 +33,7 @@ class Game {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xffffff);
     this.renderer.setSize(1000, 500);
+    document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
     this.level = 1;
@@ -44,7 +45,7 @@ class Game {
     this.checkNextCoord = true;
 
     // Game components
-    this.board = new Board(this.scene);
+    this.board = new Board(this.scene, LEVEL_REF[this.level].boardLayout);
     this.block = new Block(this.scene, LEVEL_REF[this.level].blockPos);
 
     this.handleKeydown = this.handleKeydown.bind(this);
@@ -57,9 +58,11 @@ class Game {
     light.position.set(600, 800, 800);
     this.scene.add(light);
 
-    this.board.addBoardToScene();
+    this.renderLevel();
+  }
 
-    document.body.appendChild(this.renderer.domElement);
+  renderLevel() {
+    this.board.addBoardToScene();
 
     this.renderer.render(this.scene, this.camera);
 
@@ -137,27 +140,29 @@ class Game {
         break;
       case "empty":
         this.lose();
-        return false;
         break;
       case "goal":
-        if (this.block.alignment === "y") {
-          this.win();
-          return false;
-        }
+        if (this.block.alignment === "y") this.win();
         break;
       case "bridge":
-        if (!tile.isActivated) {
-          this.lose();
-          return false;
-        }
+        if (!tile.isActivated) this.lose();
         break;
-      case "bridgeActivator":
+      case "activator":
+        tile.bridgeCoords.forEach(coord => {
+          const bridgeTile = this.board.tiles[coord[0]][coord[1]];
+          bridgeTile.removeTileFromScene();
+
+          const wasActivated = bridgeTile.isActivated;
+          bridgeTile.isActivated = !wasActivated;
+          bridgeTile.renderTile(!wasActivated);
+          bridgeTile.addTileToScene();
+        });
+        this.renderer.render(this.scene, this.camera);
+
+        if (this.block.alignment === "y") this.checkNextCoord = false;
         break;
       case "fragile":
-        if (this.block.alignment === "y") {
-          this.lose();
-          return false;
-        }
+        if (this.block.alignment === "y") this.lose();
         break;
       default:
         return;
@@ -170,8 +175,16 @@ class Game {
     this.dropBlock(-1600);
     setTimeout(() => {
       console.log("new level!");
-      this.level += 1;
       this.checkNextCoord = true;
+
+      // next level
+      this.level += 1;
+      this.block.initialPos = LEVEL_REF[this.level].blockPos;
+      this.block.startLevel();
+      this.board.removeBoardFromScene();
+
+      this.board.tiles = this.board.createTiles(this.scene, LEVEL_REF[this.level].boardLayout);
+      this.renderLevel();
     }, 1500);
   }
 

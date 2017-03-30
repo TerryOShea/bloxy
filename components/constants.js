@@ -2,7 +2,7 @@ export const SIDE_LENGTH = 150;
 export const TILE_HEIGHT = 20;
 
 export const START_POS_ONE = [2, 2];
-export const START_POS_TWO = [1, 1];
+export const START_POS_TWO = [2, 5];
 export const START_POS_THREE = [1, 1];
 export const START_POS_FOUR = [1, 1];
 export const START_POS_FIVE = [1, 1];
@@ -18,7 +18,8 @@ export const LEVEL_ONE = [
 
 export const LEVEL_TWO = [
   ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
-  ["normal", "normal", "activator", "normal", "empty", "empty", "normal", "normal", "activator", "normal", "empty", "empty", "normal", "goal", "normal"],
+  ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", { type: "activator", bridgeCoords: [[5, 11], [5, 12]] }, "normal", "empty", "empty", "normal", "goal", "normal"],
+  ["normal", "normal", { type: "activator", bridgeCoords: [[5, 5], [5, 6]] }, "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
   ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
   ["normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal"],
   ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
