@@ -41,9 +41,11 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
-    this.level = 4;
+    this.level = 0;
     this.moves = 0;
+    this.movesThisLevel = 0;
     this.scoreboard = document.querySelector(".scoreboard");
+    this.modal = document.querySelector(".modal-container");
 
     // if one coord of the block has already won/lost the level, the other coord
     // will not be checked
@@ -54,6 +56,9 @@ class Game {
     this.block = new Block(this.scene, LEVEL_REF[this.level].blockPos);
 
     this.handleKeydown = this.handleKeydown.bind(this);
+
+    const modalBtn = document.querySelector(".modal-btn");
+    modalBtn.addEventListener('click', () => this.reset());
 
     this.renderGame();
   }
@@ -86,8 +91,8 @@ class Game {
   }
 
   updateScore(newScore) {
-    this.moves = newScore === 0 ? newScore : this.moves + 1;
-    this.scoreboard.innerHTML = this.moves;
+    this.movesThisLevel = typeof newScore === "number" ? newScore : this.movesThisLevel + 1;
+    this.scoreboard.innerHTML = this.moves + this.movesThisLevel;
 
     if (typeof newScore === "undefined") {
       this.block.coords.forEach(coord => this.receiveMove(...coord));
@@ -178,19 +183,27 @@ class Game {
     this.checkNextCoord = false;
     this.unlistenKeydown();
     this.dropBlock(-1600);
-    setTimeout(() => {
-      console.log("new level!");
-      this.checkNextCoord = true;
+    this.moves += this.movesThisLevel;
+    this.updateScore(0);
+    setTimeout(this.startNextLevel.bind(this), 1500);
+  }
 
-      // next level
-      this.level += 1;
+  startNextLevel() {
+    this.checkNextCoord = true;
+
+    // next level
+    this.level += 1;
+
+    if (this.level === 5) {
+      this.modal.style.display = "flex";
+    } else {
       this.block.initialPos = LEVEL_REF[this.level].blockPos;
       this.block.startLevel();
       this.board.removeBoardFromScene();
 
       this.board.tiles = this.board.createTiles(this.scene, LEVEL_REF[this.level].boardLayout);
       this.renderLevel();
-    }, 1500);
+    }
   }
 
   lose() {
@@ -204,6 +217,15 @@ class Game {
       this.renderer.render(this.scene, this.camera);
       this.checkNextCoord = true;
     }, 1500);
+  }
+
+  reset() {
+    this.modal.style.display = "none";
+    this.level = -1;
+    this.moves = 0;
+    this.movesThisLevel = 0;
+    this.scoreboard.innerHTML = this.moves;
+    this.startNextLevel();
   }
 }
 

@@ -1,13 +1,55 @@
-@import url(https://fonts.googleapis.com/css?family=Orbitron:500);
+@import url(https://fonts.googleapis.com/css?family=Orbitron:500|Roboto+Condensed);
 
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 canvas {
   display: block;
   margin: 50px auto;
+}
+
+.modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  align-items: center;
+  justify-content: center;
+  display: none;
+
+  section {
+    width: 25vw;
+    height: 200px;
+    background-color: white;
+    border: 1px solid gray;
+    font-size: 24px;
+    border-radius: 3px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+
+.modal-btn {
+  font: 24px 'Roboto Condensed', sans-serif;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 0;
+
+  &:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+  }
 }
 
 header {
