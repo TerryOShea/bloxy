@@ -183,7 +183,7 @@ var Game = function () {
     document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
-    this.level = 4;
+    this.level = 0;
     this.moves = 0;
     this.movesThisLevel = 0;
     this.scoreboard = document.querySelector(".scoreboard");
