@@ -23,7 +23,7 @@ and `Game`.
 One challenge I ran into was having the block drop onto each new board from above
 and drop down into the void when it fell off the board, all while disabling the
 player's block-roll capabilities until the block landed or the level reset. I
-wrote the dropBlock
+wrote the dropBlock function to address it:
 
 ```javascript
 dropBlock(targetHeight) {

@@ -38,7 +38,7 @@ class Game {
     this.moves = 0;
     this.movesThisLevel = 0;
     this.scoreboard = document.querySelector(".scoreboard");
-    this.modal = document.querySelector(".modal-container");
+    this.modal = document.querySelector(".reset-modal-container");
 
     // if one coord of the block has already won/lost the level, the other coord
     // will not be checked
