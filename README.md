@@ -1,7 +1,7 @@
 ## Bloxy
 
 A 3D block manipulation game.
-Play it here.
+Play it [here](https://terryoshea.github.io/bloxy/).
 
 ![gameplay](assets/bloxy_gameplay.gif)
 
