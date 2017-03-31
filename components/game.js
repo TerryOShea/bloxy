@@ -55,6 +55,9 @@ class Game {
     this.board = new Board(this.scene, LEVEL_REF[this.level].boardLayout);
     this.block = new Block(this.scene, LEVEL_REF[this.level].blockPos);
 
+    // store hit activators so their bridges can be reset on a level reset
+    this.activators = [];
+
     this.handleKeydown = this.handleKeydown.bind(this);
 
     const modalBtn = document.querySelector(".modal-btn");
@@ -158,6 +161,7 @@ class Game {
         if (!tile.isActivated) this.lose();
         break;
       case "activator":
+        this.activators.push(tile);
         tile.bridgeCoords.forEach(coord => {
           const bridgeTile = this.board.tiles[coord[0]][coord[1]];
           bridgeTile.removeTileFromScene();
@@ -184,6 +188,7 @@ class Game {
     this.unlistenKeydown();
     this.dropBlock(-1600);
     this.moves += this.movesThisLevel;
+    this.activators = [];
     this.updateScore(0);
     setTimeout(this.startNextLevel.bind(this), 1500);
   }
@@ -214,8 +219,17 @@ class Game {
       this.updateScore(0);
       this.block.reset();
       this.block.addBlockToScene();
-      this.renderer.render(this.scene, this.camera);
       this.checkNextCoord = true;
+
+      this.activators.forEach(activator => {
+        activator.bridgeCoords.forEach(coord => {
+          const bridgeTile = this.board.tiles[coord[0]][coord[1]];
+          bridgeTile.isActivated = false;
+          bridgeTile.removeTileFromScene();
+        });
+      });
+
+      this.renderer.render(this.scene, this.camera);
     }, 1500);
   }
 
