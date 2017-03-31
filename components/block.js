@@ -107,6 +107,10 @@ class Block {
     this.block.position.y -= 20;
   }
 
+  height() {
+    return this.block.position.y;
+  }
+
   move(x, y, z) {
     this.updateCoords(x, y, z);
 

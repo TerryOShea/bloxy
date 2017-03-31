@@ -81,9 +81,9 @@ class Game {
     this.dropBlock(140);
   }
 
-  dropBlock(height) {
-    if (this.block.block.position.y > height) {
-      requestAnimationFrame(() => this.dropBlock(height));
+  dropBlock(targetHeight) {
+    if (this.block.height() > targetHeight) {
+      requestAnimationFrame(() => this.dropBlock(targetHeight));
       this.block.drop();
       this.block.addBlockToScene();
       this.renderer.render(this.scene, this.camera);
