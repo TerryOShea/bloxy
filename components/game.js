@@ -12,11 +12,11 @@ const KEYDOWN_EVENTS = [
 ];
 
 const LEVEL_REF = [
-  { boardLayout: BLOXY.LEVEL_ZERO, blockPos: BLOXY.START_POS_ZERO, cameraPos: BLOXY.CAMERA_POS_ZERO },
-  { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE, cameraPos: BLOXY.CAMERA_POS_ONE },
-  { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_TWO, cameraPos: BLOXY.CAMERA_POS_TWO },
-  { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_THREE, cameraPos: BLOXY.CAMERA_POS_THREE },
-  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR, cameraPos: BLOXY.CAMERA_POS_FOUR }
+  { boardLayout: BLOXY.LEVEL_ZERO, blockPos: BLOXY.START_POS_ZERO, cameraPos: BLOXY.CAMERA_POS_ZERO, lightPos: BLOXY.LIGHT_POS_ZERO },
+  { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE, cameraPos: BLOXY.CAMERA_POS_ONE, lightPos: BLOXY.LIGHT_POS_ONE },
+  { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_TWO, cameraPos: BLOXY.CAMERA_POS_TWO, lightPos: BLOXY.LIGHT_POS_TWO },
+  { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_THREE, cameraPos: BLOXY.CAMERA_POS_THREE, lightPos: BLOXY.LIGHT_POS_THREE },
+  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR, cameraPos: BLOXY.CAMERA_POS_FOUR, lightPos: BLOXY.LIGHT_POS_FOUR }
 ];
 
 class Game {
@@ -25,6 +25,8 @@ class Game {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.rotation.x = -Math.PI/5;
+    this.light = new THREE.PointLight(0xffffff, 1.5);
+    this.scene.add(this.light);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xffffff);
@@ -32,7 +34,7 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
-    this.level = 0;
+    this.level = 4;
     this.moves = 0;
     this.movesThisLevel = 0;
     this.scoreboard = document.querySelector(".scoreboard");
@@ -61,14 +63,6 @@ class Game {
     aboutModalOpen.addEventListener('click', () => aboutModal.style.display = "flex");
     aboutModalClose.addEventListener('click', () => aboutModal.style.display = "none");
 
-    this.renderGame();
-  }
-
-  renderGame() {
-    const light = new THREE.PointLight(0xffffff, 1.5);
-    light.position.set(600, 800, 800);
-    this.scene.add(light);
-
     this.renderLevel();
   }
 
@@ -79,6 +73,8 @@ class Game {
     this.camera.position.x = cameraPos[0];
     this.camera.position.y = cameraPos[1];
     this.camera.position.z = cameraPos[2];
+
+    this.light.position.set(...LEVEL_REF[this.level].lightPos);
 
     this.renderer.render(this.scene, this.camera);
 

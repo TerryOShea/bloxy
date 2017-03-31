@@ -13,6 +13,12 @@ export const CAMERA_POS_TWO = [1000, 1100, 1600];
 export const CAMERA_POS_THREE = [1000, 1100, 2000];
 export const CAMERA_POS_FOUR = [1000, 1400, 2500];
 
+export const LIGHT_POS_ZERO = [600, 800, 800];
+export const LIGHT_POS_ONE = [1000, 800, 700];
+export const LIGHT_POS_TWO = [1100, 800, 800];
+export const LIGHT_POS_THREE = [800, 800, 800];
+export const LIGHT_POS_FOUR = [900, 800, 800];
+
 export const LEVEL_ZERO = [
   ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
   ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
