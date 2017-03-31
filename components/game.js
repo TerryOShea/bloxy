@@ -16,7 +16,8 @@ const LEVEL_REF = [
   { boardLayout: BLOXY.LEVEL_ONE, blockPos: BLOXY.START_POS_ONE, cameraPos: BLOXY.CAMERA_POS_ONE, lightPos: BLOXY.LIGHT_POS_ONE },
   { boardLayout: BLOXY.LEVEL_TWO, blockPos: BLOXY.START_POS_TWO, cameraPos: BLOXY.CAMERA_POS_TWO, lightPos: BLOXY.LIGHT_POS_TWO },
   { boardLayout: BLOXY.LEVEL_THREE, blockPos: BLOXY.START_POS_THREE, cameraPos: BLOXY.CAMERA_POS_THREE, lightPos: BLOXY.LIGHT_POS_THREE },
-  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR, cameraPos: BLOXY.CAMERA_POS_FOUR, lightPos: BLOXY.LIGHT_POS_FOUR }
+  { boardLayout: BLOXY.LEVEL_FOUR, blockPos: BLOXY.START_POS_FOUR, cameraPos: BLOXY.CAMERA_POS_FOUR, lightPos: BLOXY.LIGHT_POS_FOUR },
+  { boardLayout: BLOXY.LEVEL_FIVE, blockPos: BLOXY.START_POS_FIVE, cameraPos: BLOXY.CAMERA_POS_FIVE, lightPos: BLOXY.LIGHT_POS_FIVE }
 ];
 
 class Game {
@@ -34,7 +35,7 @@ class Game {
     document.body.appendChild(this.renderer.domElement);
 
     // Game statistics
-    this.level = 0;
+    this.level = 4;
     this.moves = 0;
     this.movesThisLevel = 0;
     this.scoreboard = document.querySelector(".scoreboard");
@@ -198,7 +199,7 @@ class Game {
     // next level
     this.level += 1;
 
-    if (this.level === 5) {
+    if (this.level === 6) {
       this.modal.style.display = "flex";
     } else {
       this.block.initialPos = LEVEL_REF[this.level].blockPos;

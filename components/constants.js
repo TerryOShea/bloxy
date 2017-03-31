@@ -6,18 +6,21 @@ export const START_POS_ONE = [2, 5];
 export const START_POS_TWO = [2, 4];
 export const START_POS_THREE = [2, 6];
 export const START_POS_FOUR = [14, 2];
+export const START_POS_FIVE = [1, 4];
 
 export const CAMERA_POS_ZERO = [700, 1100, 1600];
 export const CAMERA_POS_ONE = [900, 1100, 1600];
 export const CAMERA_POS_TWO = [1000, 1100, 1600];
 export const CAMERA_POS_THREE = [1000, 1100, 2000];
 export const CAMERA_POS_FOUR = [1000, 1400, 2500];
+export const CAMERA_POS_FIVE = [1000, 1400, 2500];
 
 export const LIGHT_POS_ZERO = [600, 800, 800];
 export const LIGHT_POS_ONE = [1000, 800, 700];
 export const LIGHT_POS_TWO = [1100, 800, 800];
 export const LIGHT_POS_THREE = [800, 800, 800];
 export const LIGHT_POS_FOUR = [900, 800, 800];
+export const LIGHT_POS_FIVE = [900, 800, 800];
 
 export const LEVEL_ZERO = [
   ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
@@ -69,4 +72,17 @@ export const LEVEL_FOUR = [
   ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal"],
   ["normal", "goal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
   ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
+];
+
+export const LEVEL_FIVE = [
+  ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+  ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+  ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
+  ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
+  ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal"],
+  ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"],
+  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "empty", "empty", "empty", "empty"],
+  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+  ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
 ];
