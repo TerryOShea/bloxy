@@ -54,6 +54,13 @@ class Game {
     const modalBtn = document.querySelector(".modal-btn");
     modalBtn.addEventListener('click', () => this.reset());
 
+    // the about modal
+    const aboutModal = document.querySelector(".about-modal-container");
+    const aboutModalClose = document.querySelector(".about-modal-btn");
+    const aboutModalOpen = document.querySelector(".open-about-btn");
+    aboutModalOpen.addEventListener('click', () => aboutModal.style.display = "flex");
+    aboutModalClose.addEventListener('click', () => aboutModal.style.display = "none");
+
     this.renderGame();
   }
 
