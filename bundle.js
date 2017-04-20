@@ -475,13 +475,19 @@ var Block = function () {
 
     // create the 3D box
     var geometry = new _threeMin.BoxGeometry(_constants.SIDE_LENGTH, _constants.SIDE_LENGTH * 2, _constants.SIDE_LENGTH);
-    var rand = (Math.random() + 1) / 2;
+    var rand = Math.random() / 2 + .45;
     geometry.faces.forEach(function (face) {
       return face.color.setHex(rand * 0xffffff);
     });
 
     var material = new _threeMin.MeshLambertMaterial({ color: 0xffffff, vertexColors: _threeMin.FaceColors });
     this.block = new _threeMin.Mesh(geometry, material);
+
+    // add black edges
+    var lineGeometry = new _threeMin.EdgesGeometry(this.block.geometry);
+    var lineMaterial = new _threeMin.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+    var edges = new _threeMin.LineSegments(lineGeometry, lineMaterial);
+    this.block.add(edges);
 
     this.initialPos = initialPos;
     this.startLevel();
@@ -765,7 +771,7 @@ var Tile = function () {
 
       // TODO: convert to switch statement
 
-      var rand = (Math.random() + 1) / 2;
+      var rand = Math.random() / 2 + .35;
 
       switch (this.type) {
         case "normal":
@@ -819,6 +825,12 @@ var Tile = function () {
         });
         var button = new _threeMin.Mesh(buttonGeometry, material);
         button.position.y = _constants.TILE_HEIGHT;
+
+        // add edges to button
+        var _lineGeometry = new _threeMin.EdgesGeometry(button.geometry);
+        var _lineMaterial = new _threeMin.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+        var _edges = new _threeMin.LineSegments(_lineGeometry, _lineMaterial);
+        button.add(_edges);
 
         this.tile.add(button);
       }

@@ -1,4 +1,4 @@
-import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion } from '../lib/three.min.js';
+import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion, EdgesGeometry, LineBasicMaterial, LineSegments } from '../lib/three.min.js';
 import { SIDE_LENGTH } from './constants';
 
 class Block {
@@ -8,11 +8,17 @@ class Block {
 
     // create the 3D box
     const geometry = new BoxGeometry(SIDE_LENGTH, SIDE_LENGTH * 2, SIDE_LENGTH);
-    const rand = (Math.random() + 1)/2;
+    const rand = Math.random()/2 + .45;
     geometry.faces.forEach(face => face.color.setHex(rand * 0xffffff));
 
     const material = new MeshLambertMaterial({ color: 0xffffff, vertexColors: FaceColors });
     this.block = new Mesh(geometry, material);
+
+    // add black edges
+    const lineGeometry = new EdgesGeometry(this.block.geometry);
+    const lineMaterial = new LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+    const edges = new LineSegments(lineGeometry, lineMaterial);
+    this.block.add(edges);
 
     this.initialPos = initialPos;
     this.startLevel();

@@ -18,7 +18,7 @@ class Tile {
 
     // TODO: convert to switch statement
 
-    const rand = (Math.random() + 1)/2;
+    const rand = Math.random()/2 + .35;
 
     switch(this.type) {
       case "normal":
@@ -66,6 +66,12 @@ class Tile {
       buttonGeometry.faces.forEach(face => face.color.setHex(rand * 0xffffff));
       const button = new Mesh(buttonGeometry, material);
       button.position.y = TILE_HEIGHT;
+
+      // add edges to button
+      const lineGeometry = new EdgesGeometry(button.geometry);
+      const lineMaterial = new LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+      const edges = new LineSegments(lineGeometry, lineMaterial);
+      button.add(edges);
 
       this.tile.add(button);
     }
