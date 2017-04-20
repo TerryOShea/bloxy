@@ -177,7 +177,7 @@ var Game = function () {
     this.light = new THREE.PointLight(0xffffff, 1.5);
     this.scene.add(this.light);
 
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0xffffff);
     this.renderer.setSize(1000, 500);
     document.body.appendChild(this.renderer.domElement);
