@@ -2,7 +2,7 @@ import Board from './board';
 import Block from './block';
 import * as BLOXY from './constants';
 
-import * as THREE from '../lib/three.min.js';
+import * as THREE from 'three';
 
 const KEYDOWN_EVENTS = [
   "ArrowLeft",

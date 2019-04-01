@@ -1,4 +1,4 @@
-import { BoxGeometry, MeshLambertMaterial, MeshBasicMaterial, Mesh, FaceColors, EdgesGeometry, LineBasicMaterial, LineSegments, CylinderGeometry } from '../lib/three.min.js';
+import { BoxGeometry, MeshLambertMaterial, MeshBasicMaterial, Mesh, FaceColors, EdgesGeometry, LineBasicMaterial, LineSegments, CylinderGeometry } from 'three';
 import { SIDE_LENGTH, TILE_HEIGHT } from './constants';
 
 class Tile {

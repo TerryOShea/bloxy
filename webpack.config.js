@@ -1,24 +1,30 @@
+const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
-  context: __dirname,
-  entry: "./bloxy.js",
-  output: {
-    path: __dirname,
-    filename: "bundle.js",
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015']
-        }
-      }
-    ]
-  },
-  devtool: 'source-maps',
-  resolve: {
-    extensions: [".js", "*"]
-  }
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false })
+        ]
+    },
+    entry: "./src/bloxy.js",
+    output: {
+        filename: "bundle.js",
+        path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
+    }
 };

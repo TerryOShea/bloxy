@@ -1,4 +1,4 @@
-import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion, EdgesGeometry, LineBasicMaterial, LineSegments } from '../lib/three.min.js';
+import { BoxGeometry, MeshLambertMaterial, Mesh, FaceColors, Vector3, Quaternion, EdgesGeometry, LineBasicMaterial, LineSegments } from 'three';
 import { SIDE_LENGTH } from './constants';
 
 class Block {
