@@ -1,101 +1,112 @@
 export const SIDE_LENGTH = 150;
 
-class Level {
-    constructor(startPosition, cameraPosition, lightPosition, board) {
-        this.startPosition = startPosition;
-        this.cameraPosition = cameraPosition;
-        this.lightPosition = lightPosition;
-        this.board = board;
-    }
-}
+const Level = (startPosition, cameraPosition, lightPosition, board) => ({
+    startPosition: startPosition,
+    cameraPosition: cameraPosition,
+    lightPosition: lightPosition,
+    board: board
+});
 
-class 3DPosition {
-    constructor(x, y, z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-}
+const Position3D = (x, y, z) => ({
+    x: x,
+    y: y,
+    z: z
+});
 
-export const LEVEL_ZERO = Level([2, 2], 3DPosition(700, 1100, 1600), 3DPostion(600, 800, 800), [
-    ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
-    ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
-    ["normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty"],
-    ["empty", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal"],
-    ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal", "normal"],
-    ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty"]
-]);
+const LEVEL_ZERO = Level(
+    [2, 2],
+    Position3D(700, 1100, 1600),
+    Position3D(600, 800, 800), [
+        ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty"],
+        ["empty", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal"],
+        ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal", "normal"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty"]
+    ]
+);
 
-export const START_POS_ONE = [2, 5];
-export const START_POS_TWO = [2, 4];
-export const START_POS_THREE = [2, 6];
-export const START_POS_FOUR = [14, 2];
-export const START_POS_FIVE = [1, 4];
+const LEVEL_ONE = Level(
+    [2, 5],
+    Position3D(900, 1100, 1600),
+    Position3D(1000, 800, 700), [
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", { type: "activator", bridgeCoords: [[5, 11], [5, 12]] }, "normal", "empty", "empty", "normal", "goal", "normal"],
+        ["normal", "normal", { type: "activator", bridgeCoords: [[5, 5], [5, 6]] }, "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
+        ["normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
+    ]
+);
 
-export const CAMERA_POS_ONE = [900, 1100, 1600];
-export const CAMERA_POS_TWO = [1000, 1100, 1600];
-export const CAMERA_POS_THREE = [1000, 1100, 2000];
-export const CAMERA_POS_FOUR = [1000, 1400, 2500];
-export const CAMERA_POS_FIVE = [1000, 1400, 2500];
+const LEVEL_TWO = Level(
+    [2, 4],
+    Position3D(1000, 1100, 1600),
+    Position3D(1100, 800, 800), [
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"]
+    ]
+);
 
-export const LIGHT_POS_ONE = [1000, 800, 700];
-export const LIGHT_POS_TWO = [1100, 800, 800];
-export const LIGHT_POS_THREE = [800, 800, 800];
-export const LIGHT_POS_FOUR = [900, 800, 800];
-export const LIGHT_POS_FIVE = [900, 800, 800];
+const LEVEL_THREE = Level(
+    [2, 6],
+    Position3D(1000, 1100, 2000),
+    Position3D(800, 800, 800), [
+        ["empty", "empty", "empty", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "empty", "empty", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "fragile", "fragile", "fragile", "fragile", "fragile"],
+        ["normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "fragile", "fragile", "fragile", "fragile", "fragile"],
+        ["empty", "empty", "empty", "empty", "empty", "normal", "goal", "normal", "empty", "empty", "fragile", "fragile", "normal", "fragile"],
+        ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "fragile", "fragile", "fragile", "fragile"]
+    ]
+);
 
-export const LEVEL_ONE = [
-  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", { type: "activator", bridgeCoords: [[5, 11], [5, 12]] }, "normal", "empty", "empty", "normal", "goal", "normal"],
-  ["normal", "normal", { type: "activator", bridgeCoords: [[5, 5], [5, 6]] }, "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal"],
-  ["normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
-];
+const LEVEL_FOUR = Level(
+    [14, 2],
+    Position3D(1000, 1400, 2500),
+    Position3D(900, 800, 800), [
+        ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
+        ["empty", "normal", "normal", "normal", "normal", "bridge", "bridge", "normal", { type: "activator", bridgeCoords: [[2, 6], [2, 7]] }, "normal", "normal", "normal", "normal", "normal", "normal"],
+        ["empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"],
+        ["empty", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }, "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
+        ["empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "normal", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }, "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }],
+        ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal"],
+        ["normal", "goal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
+    ]
+);
 
-export const LEVEL_TWO = [
-  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"]
-];
+const LEVEL_FIVE = Level(
+    [1, 4],
+    Position3D(1000, 1400, 2500),
+    Position3D(900, 800, 800), [
+        ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
+        ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
+        ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal"],
+        ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
+        ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
+    ]
+);
 
-export const LEVEL_THREE = [
-  ["empty", "empty", "empty", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "fragile", "empty", "empty", "empty", "empty"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "fragile", "fragile", "fragile", "fragile", "fragile"],
-  ["normal", "normal", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "fragile", "fragile", "fragile", "fragile", "fragile"],
-  ["empty", "empty", "empty", "empty", "empty", "normal", "goal", "normal", "empty", "empty", "fragile", "fragile", "normal", "fragile"],
-  ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "fragile", "fragile", "fragile", "fragile"]
-];
-
-export const LEVEL_FOUR = [
-  ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
-  ["empty", "normal", "normal", "normal", "normal", "bridge", "bridge", "normal", { type: "activator", bridgeCoords: [[2, 6], [2, 7]] }, "normal", "normal", "normal", "normal", "normal", "normal"],
-  ["empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"],
-  ["empty", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }, "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
-  ["empty", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "normal", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }, "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", { type: "activator", bridgeCoords: [[9, 6], [9, 7]] }],
-  ["normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal"],
-  ["normal", "goal", "normal", "normal", "normal", "bridge", "bridge", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
-];
-
-export const LEVEL_FIVE = [
-  ["empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty"],
-  ["normal", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal"],
-  ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "normal", "normal", "goal", "normal"],
-  ["empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "empty", "empty", "normal", "normal", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "normal", "normal", "empty", "empty", "empty", "empty"],
-  ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "normal", "normal", "normal", "empty", "empty", "empty", "empty", "empty"]
+export const LEVELS = [
+    LEVEL_ZERO,
+    LEVEL_ONE,
+    LEVEL_TWO,
+    LEVEL_THREE,
+    LEVEL_FOUR,
+    LEVEL_FIVE 
 ];

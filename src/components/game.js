@@ -1,6 +1,6 @@
 import Board from './board';
 import Block from './block';
-import * as BLOXY from './constants';
+import { LEVELS } from './constants';
 import * as THREE from 'three';
 
 const KEYDOWN_EVENTS = [
@@ -8,40 +8,6 @@ const KEYDOWN_EVENTS = [
   "ArrowUp",
   "ArrowRight",
   "ArrowDown"
-];
-
-const LEVEL_REF = [
-  BLOXY.LEVEL_ZERO,
-  {
-    boardLayout: BLOXY.LEVEL_ONE,
-    blockPos: BLOXY.START_POS_ONE,
-    cameraPos: BLOXY.CAMERA_POS_ONE,
-    lightPos: BLOXY.LIGHT_POS_ONE
-  },
-  {
-    boardLayout: BLOXY.LEVEL_TWO,
-    blockPos: BLOXY.START_POS_TWO,
-    cameraPos: BLOXY.CAMERA_POS_TWO,
-    lightPos: BLOXY.LIGHT_POS_TWO
-  },
-  {
-    boardLayout: BLOXY.LEVEL_THREE,
-    blockPos: BLOXY.START_POS_THREE,
-    cameraPos: BLOXY.CAMERA_POS_THREE,
-    lightPos: BLOXY.LIGHT_POS_THREE
-  },
-  {
-    boardLayout: BLOXY.LEVEL_FOUR,
-    blockPos: BLOXY.START_POS_FOUR,
-    cameraPos: BLOXY.CAMERA_POS_FOUR,
-    lightPos: BLOXY.LIGHT_POS_FOUR
-  },
-  {
-    boardLayout: BLOXY.LEVEL_FIVE,
-    blockPos: BLOXY.START_POS_FIVE,
-    cameraPos: BLOXY.CAMERA_POS_FIVE,
-    lightPos: BLOXY.LIGHT_POS_FIVE
-  }
 ];
 
 class Game {
@@ -70,8 +36,8 @@ class Game {
     this.checkNextCoord = true;
 
     // Game components
-    this.board = new Board(this.scene, LEVEL_REF[this.level].board);
-    this.block = new Block(this.scene, LEVEL_REF[this.level].startPosition);
+    this.board = new Board(this.scene, LEVELS[this.level].board);
+    this.block = new Block(this.scene, LEVELS[this.level].startPosition);
 
     // store hit activators so their bridges can be reset on a level reset
     this.activators = [];
@@ -94,12 +60,13 @@ class Game {
   renderLevel() {
     this.board.addBoardToScene();
 
-    const cameraPos = LEVEL_REF[this.level].cameraPosition;
-    this.camera.position.x = cameraPos.x;
-    this.camera.position.y = cameraPos.y;
-    this.camera.position.z = cameraPos.z;
+    const { cameraPosition } = LEVELS[this.level];
+    this.camera.position.x = cameraPosition.x;
+    this.camera.position.y = cameraPosition.y;
+    this.camera.position.z = cameraPosition.z;
 
-    this.light.position.set(...LEVEL_REF[this.level].lightPosition);
+    const { x, y, z } = LEVELS[this.level].lightPosition;
+    this.light.position.set(x, y, z)
 
     this.renderer.render(this.scene, this.camera);
 
@@ -122,7 +89,10 @@ class Game {
     this.scoreboard.innerHTML = this.moves + this.movesThisLevel;
 
     if (typeof newScore === "undefined") {
-      this.block.coords.forEach(coord => this.receiveMove(...coord));
+        this.block.coords.forEach(coord => {
+            console.log(coord);
+            this.receiveMove(...coord);
+        });
     }
   }
 
@@ -226,11 +196,11 @@ class Game {
     if (this.level === 6) {
       this.modal.style.display = "flex";
     } else {
-      this.block.initialPos = LEVEL_REF[this.level].startPosition;
+      this.block.initialPos = LEVELS[this.level].startPosition;
       this.block.startLevel();
       this.board.removeBoardFromScene();
 
-      this.board.tiles = this.board.createTiles(this.scene, LEVEL_REF[this.level].board);
+      this.board.tiles = this.board.createTiles(this.scene, LEVELS[this.level].board);
       this.renderLevel();
     }
   }
