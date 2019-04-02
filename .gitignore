@@ -1,4 +1,4 @@
 node_modules/
 TODO
-dist
+build
 .DS_Store

@@ -3,8 +3,9 @@
   "description": "A 3D block game",
   "author": "Terry O'Shea",
   "license": "MIT",
+  "homepage": "https://terryoshea.github.io/bloxy",
   "scripts": {
-    "deploy": "webpack --mode production",
+    "deploy": "webpack --mode production && gh-pages -d build",
     "dev": "webpack --mode development",
     "dev:watch": "webpack --mode development --watch"
   },
@@ -20,6 +21,7 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
+    "gh-pages": "^2.0.1",
     "three": "^0.103.0"
   }
 }

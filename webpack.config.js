@@ -10,7 +10,7 @@ module.exports = {
     entry: "./src/bloxy.js",
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'build')
     },
     module: {
         rules: [
