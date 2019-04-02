@@ -5,7 +5,8 @@
   "license": "MIT",
   "homepage": "https://terryoshea.github.io/bloxy",
   "scripts": {
-    "deploy": "webpack --mode production && gh-pages -d build",
+    "predeploy": "webpack --mode production",
+    "deploy": "gh-pages -d build",
     "dev": "webpack --mode development",
     "dev:watch": "webpack --mode development --watch"
   },
