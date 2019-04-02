@@ -89,10 +89,7 @@ class Game {
     this.scoreboard.innerHTML = this.moves + this.movesThisLevel;
 
     if (typeof newScore === "undefined") {
-        this.block.coords.forEach(coord => {
-            console.log(coord);
-            this.receiveMove(...coord);
-        });
+        this.block.coords.forEach(coord => this.receiveMove(...coord));
     }
   }
 
