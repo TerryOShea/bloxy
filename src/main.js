@@ -7,5 +7,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('public/sw.js').catch(NOOP);
+    navigator.serviceWorker.register('sw.js').catch(NOOP);
 }

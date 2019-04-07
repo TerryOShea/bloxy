@@ -1,5 +1,5 @@
 const CACHE_NAME = "v3";
-const URLS_TO_CACHE = ["/", "public/main.css", "public/bundle.js"];
+const URLS_TO_CACHE = ["/", "public/main.css", "public/main.js"];
 
 self.addEventListener("install", e => {
   e.waitUntil(
