@@ -1,9 +1,16 @@
 ## Bloxy
 
-A 3D block manipulation game.
+A 3D block manipulation game (with offline functionality).
 Play it [here](https://terryoshea.github.io/bloxy/).
 
 ![gameplay](assets/bloxy_gameplay.gif)
+
+### Technologies and Libraries
+Bloxy is built in plain JavaScript with the Three.js library for three-dimensional
+rendering and Webpack for bundling. It also has a service worker for offline
+functionality, so as long as you've visited the page once (on a modern browser),
+you can play the game even offline--try turning off your Wi-Fi and refreshing the
+page.
 
 ### Instructions
 Maneuver the block using your keyboard's arrow keys. The goal of each level is
@@ -11,10 +18,6 @@ to get the block to fall into the square hole. Fall off the edge of the board
 first and the level resets. Some levels feature bridges (de/activated by buttons
 the block must hit) and/or fragile tiles (which the block can only roll across--
 if the block is upright, the tile breaks and the block falls into oblivion).
-
-### Technologies and Libraries
-Bloxy is built in plain JavaScript with the Three.js library for three-dimensional
-rendering and Webpack for bundling.
 
 ### Implementation Details
 The game is built using four classes: `Block`, `Tile`, `Board` (made up of tiles),
