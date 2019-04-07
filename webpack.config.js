@@ -8,10 +8,13 @@ module.exports = {
             new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false })
         ]
     },
-    entry: "./src/bloxy.js",
+    entry: {
+        main: "./src/main.js",
+        sw: "./src/sw.js"
+    },
     output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, 'build')
+        filename: "[name].js",
+        path: path.resolve(__dirname, 'public')
     },
     module: {
         rules: [
