@@ -18,7 +18,7 @@ self.addEventListener("activate", e => {
     caches.keys().then(cacheNames =>
       Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName === CACHE_NAME) {
+          if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
